@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analisis Butir Soal &mdash; Khairatul Husna Tartila </title>
+<style>
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:        #f0f2f5;
+  --surface:   #ffffff;
+  --surface2:  #f8f9fb;
+  --border:    #e2e6ed;
+  --ink:       #1a1d23;
+  --ink2:      #4a5060;
+  --ink3:      #8a90a0;
+
+  --green:     #16a34a; --green-bg: #dcfce7; --green-dark: #14532d;
+  --red:       #dc2626; --red-bg:   #fee2e2; --red-dark:   #7f1d1d;
+  --amber:     #d97706; --amber-bg: #fef3c7; --amber-dark: #78350f;
+  --blue:      #2563eb; --blue-bg:  #dbeafe; --blue-dark:  #1e3a8a;
+  --gray:      #6b7280; --gray-bg:  #f3f4f6; --gray-dark:  #374151;
+  --olive:     #4d7c0f; --olive-bg: #ecfccb;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow:    0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.05);
+  --radius:    12px;
+  --radius-sm: 8px;
+}
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.page { max-width: 1080px; margin: 0 auto; padding: 32px 20px 60px; }
+
+/* ============================================================
+   HERO HEADER
+   ============================================================ */
+.hero {
+  background: linear-gradient(135deg, #1e3a5f 0%, #1a6b45 100%);
+  border-radius: 18px;
+  padding: 36px 40px;
+  margin-bottom: 28px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 99px;
+  padding: 4px 14px;
+  font-size: 12px; font-weight: 600; letter-spacing: .06em;
+  text-transform: uppercase; margin-bottom: 14px; color: rgba(255,255,255,.9);
+}
+.hero h1 { font-size: 28px; font-weight: 700; letter-spacing: -.025em; line-height: 1.2; }
+.hero-sub { margin-top: 8px; font-size: 14px; color: rgba(255,255,255,.72); }
+.hero-meta {
+  display: flex; gap: 24px; flex-wrap: wrap;
+  margin-top: 22px; padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,.2);
+  font-size: 13px; color: rgba(255,255,255,.8);
+}
+.hero-meta span b { color: #fff; font-weight: 600; }
+
+/* ============================================================
+   STAT CARDS ROW
+   ============================================================ */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column; gap: 6px;
+}
+.stat-card .sc-label {
+  font-size: 12px; font-weight: 600; letter-spacing: .05em;
+  text-transform: uppercase; color: var(--ink3);
+  display: flex; align-items: center; gap: 6px;
+}
+.stat-card .sc-label .icon {
+  width: 28px; height: 28px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+}
+.stat-card .sc-value {
+  font-size: 32px; font-weight: 700; letter-spacing: -.04em;
+  line-height: 1; color: var(--ink);
+}
+.stat-card .sc-value span { font-size: 16px; font-weight: 400; color: var(--ink3); }
+.stat-card .sc-badge {
+  display: inline-block;
+  font-size: 11.5px; font-weight: 600;
+  padding: 3px 10px; border-radius: 99px;
+  text-transform: capitalize; width: fit-content;
+}
+
+/* ============================================================
+   DISTRIBUTION BADGES (ringkasan kategori)
+   ============================================================ */
+.dist-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.dist-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  box-shadow: var(--shadow-sm);
+}
+.dist-card .dc-title {
+  font-size: 11.5px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--ink3); margin-bottom: 10px;
+}
+.dist-list { display: flex; flex-direction: column; gap: 7px; }
+.dist-item {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.dist-item .di-label { font-size: 13px; color: var(--ink2); }
+.dist-item .di-bar-wrap {
+  flex: 1; height: 7px; background: var(--bg);
+  border-radius: 99px; overflow: hidden;
+}
+.dist-item .di-bar { height: 100%; border-radius: 99px; }
+.dist-item .di-count {
+  font-size: 13px; font-weight: 600; min-width: 26px; text-align: right;
+  color: var(--ink);
+}
+
+/* ============================================================
+   PANEL / SECTION
+   ============================================================ */
+.section { margin-bottom: 24px; }
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px; gap: 12px; flex-wrap: wrap;
+}
+.section-title {
+  font-size: 16px; font-weight: 700; color: var(--ink);
+  display: flex; align-items: center; gap: 8px;
+}
+.section-title .stag {
+  font-size: 11px; font-weight: 600; letter-spacing: .05em;
+  text-transform: uppercase; padding: 2px 9px; border-radius: 99px;
+  background: var(--blue-bg); color: var(--blue-dark);
+}
+
+/* filter chips */
+.filter-row { display: flex; gap: 7px; flex-wrap: wrap; align-items: center; }
+.filter-chip {
+  cursor: pointer;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  border-radius: 99px;
+  padding: 4px 13px;
+  font-size: 12px; font-weight: 600; color: var(--ink2);
+  transition: all .15s;
+  user-select: none;
+}
+.filter-chip:hover { border-color: var(--blue); color: var(--blue); }
+.filter-chip.active {
+  background: var(--blue); border-color: var(--blue); color: #fff;
+}
+
+/* ============================================================
+   TABLE PANEL
+   ============================================================ */
+.table-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.table-scroll { overflow-x: auto; }
+table {
+  width: 100%; border-collapse: collapse;
+  font-size: 13.5px;
+}
+thead th {
+  background: var(--surface2);
+  border-bottom: 2px solid var(--border);
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 11.5px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .06em;
+  color: var(--ink3); white-space: nowrap;
+  cursor: pointer; user-select: none;
+  transition: color .15s;
+}
+thead th:hover { color: var(--blue); }
+thead th.asc::after  { content: ' ▲'; }
+thead th.desc::after { content: ' ▼'; }
+thead th.no-sort { cursor: default; }
+thead th.no-sort:hover { color: var(--ink3); }
+th.r, td.r { text-align: right; font-variant-numeric: tabular-nums; }
+th.c, td.c { text-align: center; }
+tbody tr { transition: background .12s; }
+tbody tr:hover { background: #f5f7fa; }
+tbody tr.hidden { display: none; }
+tbody td {
+  padding: 11px 14px;
+  border-bottom: 1px solid #f0f2f5;
+  vertical-align: middle;
+}
+tbody tr:last-child td { border-bottom: none; }
+td.no-cell {
+  font-weight: 700; font-size: 15px; color: var(--ink2);
+  width: 46px;
+}
+
+/* value with bar */
+.val-bar { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+.val-bar .vb-num { font-variant-numeric: tabular-nums; font-weight: 500; min-width: 42px; text-align: right; }
+.val-bar .vb-track {
+  width: 56px; height: 6px; background: #e9ebef;
+  border-radius: 99px; overflow: hidden; flex-shrink: 0;
+}
+.val-bar .vb-fill { height: 100%; border-radius: 99px; }
+.neg-val { color: var(--red); font-weight: 600; }
+
+/* pill badges */
+.pill {
+  display: inline-block; font-size: 12px; font-weight: 600;
+  padding: 4px 12px; border-radius: 99px; white-space: nowrap;
+  line-height: 1.4;
+}
+
+/* tooltip */
+[data-tip] { position: relative; cursor: help; }
+[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute; bottom: calc(100% + 7px); left: 50%;
+  transform: translateX(-50%);
+  background: #1a1d23; color: #fff;
+  font-size: 11.5px; font-weight: 400; line-height: 1.4;
+  padding: 6px 11px; border-radius: 8px;
+  white-space: nowrap; pointer-events: none;
+  opacity: 0; transition: opacity .18s;
+  z-index: 100;
+}
+[data-tip]:hover::after { opacity: 1; }
+
+/* ============================================================
+   HIGHLIGHT ROWS
+   ============================================================ */
+tr.row-valid   { }
+tr.row-invalid { background: #fffafa; }
+tr.row-invalid td { color: #6b3535; }
+tr.row-invalid:hover { background: #fff0f0; }
+
+/* ============================================================
+   INFO BOX
+   ============================================================ */
+.info-box {
+  background: var(--blue-bg); border: 1px solid #bfdbfe;
+  border-radius: var(--radius-sm);
+  padding: 14px 18px; font-size: 13.5px; color: var(--blue-dark);
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.info-box .ib-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.info-box b { font-weight: 700; }
+
+/* ============================================================
+   ACCORDION (metodologi)
+   ============================================================ */
+.accordion {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+.accordion-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 22px; cursor: pointer; user-select: none;
+  font-weight: 700; font-size: 14.5px; color: var(--ink);
+  transition: background .15s;
+}
+.accordion-header:hover { background: var(--surface2); }
+.accordion-header .ah-icon { font-size: 16px; transition: transform .25s; }
+.accordion-header.open .ah-icon { transform: rotate(180deg); }
+.accordion-body {
+  display: none;
+  padding: 0 22px 22px;
+  border-top: 1px solid var(--border);
+}
+.accordion-body.open { display: block; }
+.method-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px; margin-top: 16px;
+}
+.method-card {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 16px 18px;
+}
+.method-card .mc-head {
+  font-size: 12px; font-weight: 700; letter-spacing: .05em;
+  text-transform: uppercase; color: var(--blue-dark); margin-bottom: 8px;
+}
+.method-card .mc-formula {
+  font-family: 'Courier New', monospace;
+  font-size: 12.5px; background: #fff;
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 7px 10px; margin-bottom: 8px; color: var(--ink);
+  line-height: 1.5;
+}
+.method-card .mc-desc { font-size: 12.5px; color: var(--ink2); line-height: 1.6; }
+.method-card .mc-criteria { margin-top: 8px; }
+.crit-row { display: flex; gap: 6px; align-items: center; font-size: 12px; margin-top: 5px; }
+.crit-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  margin-top: 32px; font-size: 12px; color: var(--ink3);
+  border-top: 1px solid var(--border); padding-top: 18px;
+  line-height: 1.8;
+}
+
+/* ============================================================
+   PRINT
+   ============================================================ */
+@media print {
+  body { background: #fff; }
+  .hero { background: #1e3a5f !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .filter-row, .accordion-header .ah-icon { display: none; }
+  .accordion-body { display: block !important; }
+  tbody tr.hidden { display: table-row !important; }
+}
+
+@media (max-width: 600px) {
+  .hero { padding: 24px 20px; }
+  .hero h1 { font-size: 22px; }
+  .hero-meta { gap: 14px; }
+  .stat-card .sc-value { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── HERO ─────────────────────────────────────────────── -->
+  <div class="hero">
+    <div class="hero-badge">&#128203; Khairatul Husna Tartila &middot; Evaluasi Pembelajaran</div>
+    <h1>Analisis Butir Soal</h1>
+    <div class="hero-sub">Validitas &middot; Reliabilitas (KR-20) &middot; Tingkat Kesukaran &middot; Daya Pembeda</div>
+    <div class="hero-meta">
+      <span><b>20 peserta</b></span>
+      <span><b>20 butir soal</b></span>
+      <span>r-tabel = <b>0.444</b> (df = 18, &alpha; = 5%)</span>
+      <span>Metode kelompok: <b>9 atas / 9 bawah</b></span>
+    </div>
+  </div>
+
+  <!-- ── STAT CARDS ───────────────────────────────────────── -->
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="sc-label">
+        <div class="icon" style="background:#dcfce7;">&#10003;</div>
+        Butir Valid
+      </div>
+      <div class="sc-value">10 <span>/ 20</span></div>
+      <div class="sc-badge" style="background:#dcfce7;color:#14532d;">50% lolos r-tabel</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-label">
+        <div class="icon" style="background:#dbeafe;">&#128200;</div>
+        Reliabilitas KR-20
+      </div>
+      <div class="sc-value">0.7364</div>
+      <div class="sc-badge" style="background:#dcfce7;color:#14532d;">tinggi</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-label">
+        <div class="icon" style="background:#fef3c7;">&#127919;</div>
+        Rata-rata Skor
+      </div>
+      <div class="sc-value">6.60 <span>/ 20</span></div>
+      <div class="sc-badge" style="background:#fef3c7;color:#78350f;">33% dijawab benar</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-label">
+        <div class="icon" style="background:#ede9fe;">&#128290;</div>
+        Butir Tidak Valid
+      </div>
+      <div class="sc-value">10 <span>/ 20</span></div>
+      <div class="sc-badge" style="background:#fee2e2;color:#7f1d1d;">perlu ditinjau ulang</div>
+    </div>
+  </div>
+
+  <!-- ── DISTRIBUTION ─────────────────────────────────────── -->
+  <div class="dist-row">
+    <div class="dist-card">
+      <div class="dc-title">&#128200; Tingkat Kesukaran</div>
+      <div class="dist-list" id="dist-tk"></div>
+    </div>
+    <div class="dist-card">
+      <div class="dc-title">&#9889; Daya Pembeda</div>
+      <div class="dist-list" id="dist-dp"></div>
+    </div>
+    <div class="dist-card">
+      <div class="dc-title">&#10003; Validitas</div>
+      <div class="dist-list" id="dist-val"></div>
+    </div>
+  </div>
+
+  <!-- ── INFO BOX ──────────────────────────────────────────── -->
+  <div class="info-box" style="margin-bottom:20px;">
+    <div class="ib-icon">&#128161;</div>
+    <div>
+      <b>Butir valid (10 butir):</b> 3, 6, 9, 10, 11, 12, 13, 15, 16, 17<br>
+      Butir dinyatakan valid apabila r-pbis &ge; r-tabel (<b>0.444</b>).
+      Klik kepala kolom untuk mengurutkan tabel.
+      Gunakan filter di bawah untuk menyaring kategori tertentu.
+    </div>
+  </div>
+
+  <!-- ── TABEL UTAMA ───────────────────────────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">
+        Tabel Rekapitulasi
+        <span class="stag">20 butir</span>
+      </div>
+      <div class="filter-row">
+        <span style="font-size:12px;color:var(--ink3);font-weight:600;">Filter:</span>
+        <div class="filter-chip active" data-filter="all">Semua</div>
+        <div class="filter-chip" data-filter="valid">Valid</div>
+        <div class="filter-chip" data-filter="invalid">Tidak Valid</div>
+        <div class="filter-chip" data-filter="sukar">Sukar</div>
+        <div class="filter-chip" data-filter="sedang">Sedang</div>
+        <div class="filter-chip" data-filter="mudah">Mudah</div>
+      </div>
+    </div>
+
+    <div class="table-panel">
+      <div class="table-scroll">
+        <table id="main-table">
+          <thead>
+            <tr>
+              <th class="no-sort c" style="width:46px;">No</th>
+              <th class="r" data-col="p">
+                <span data-tip="Tingkat kesukaran: proporsi peserta yang menjawab benar">P &#9432;</span>
+              </th>
+              <th data-col="tk">
+                <span data-tip="Sukar: P &le; 0.30 | Sedang: 0.31–0.70 | Mudah: P &gt; 0.70">Tingkat Kesukaran &#9432;</span>
+              </th>
+              <th class="r" data-col="r">
+                <span data-tip="r-pbis: korelasi point-biserial. Valid jika &ge; 0.444">r-pbis &#9432;</span>
+              </th>
+              <th data-col="val">
+                <span data-tip="Butir valid jika r-pbis &ge; r-tabel (0.444)">Validitas &#9432;</span>
+              </th>
+              <th class="r" data-col="d">
+                <span data-tip="Daya pembeda: seberapa baik soal membedakan siswa pandai dan kurang pandai">D &#9432;</span>
+              </th>
+              <th data-col="dp">
+                <span data-tip="Sangat Baik: D &ge; 0.40 | Baik: 0.30–0.39 | Cukup: 0.20–0.29 | Kurang: &lt; 0.20">Daya Pembeda &#9432;</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="row-invalid" data-no="1" data-p="0.4000" data-tk="Sedang" data-r="0.2283" data-val="Tidak Valid" data-d="0.1111" data-dp="Kurang"><td class="no-cell c">1</td><td class="r"><div class="val-bar"><div class="vb-num">0.400</div><div class="vb-track"><div class="vb-fill" style="width:40%;background:#2563eb;"></div></div></div></td><td><span class="pill" style="background:#fef3c7;color:#78350f;">Sedang</span></td><td class="r">0.228</td><td><span class="pill" style="background:#fee2e2;color:#7f1d1d;">Tidak Valid</span></td><td class="r ">0.111</td><td><span class="pill" style="background:#f3f4f6;color:#374151;">Kurang</span></td></tr>
+            <tr class="row-invalid" data-no="2" data-p="0.4500" data-tk="Sedang" data-r="0.2358" data-val="Tidak Valid" data-d="0.1111" data-dp="Kurang"><td class="no-cell c">2</td><td class="r"><div class="val-bar"><div class="vb-num">0.450</div><div class="vb-track"><div class="vb-fill" style="width:45%;background:#2563eb;"></div></div></div></td><td><span class="pill" style="background:#fef3c7;color:#78350f;">Sedang</span></td><td class="r">0.236</td><td><span class="pill" style="background:#fee2e2;color:#7f1d1d;">Tidak Valid</span></td><td class="r ">0.111</td><td><span class="pill" style="background:#f3f4f6;color:#374151;">Kurang</span></td></tr>
+            <tr class="row-valid" data-no="3" data-p="0.3500" data-tk="Sedang" data-r="0.6234" data-val="Valid" data-d="0.4444" data-dp="Sangat Baik"><td class="no-cell c">3</td><td class="r"><div class="val-bar"><div class="vb-num">0.350</div><div class="vb-track"><div class="vb-fill" style="width:35%;background:#2563eb;"></div></div></div></td><td><span class="pill" style="background:#fef3c7;color:#78350f;">Sedang</span></td><td class="r">0.623</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Valid</span></td><td class="r ">0.444</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Sangat Baik</span></td></tr>
+            <tr class="row-invalid" data-no="4" data-p="0.5000" data-tk="Sedang" data-r="0.2455" data-val="Tidak Valid" data-d="0.0000" data-dp="Kurang"><td class="no-cell c">4</td><td class="r"><div class="val-bar"><div class="vb-num">0.500</div><div class="vb-track"><div class="vb-fill" style="width:50%;background:#2563eb;"></div></div></div></td><td><span class="pill" style="background:#fef3c7;color:#78350f;">Sedang</span></td><td class="r">0.245</td><td><span class="pill" style="background:#fee2e2;color:#7f1d1d;">Tidak Valid</span></td><td class="r ">0.000</td><td><span class="pill" style="background:#f3f4f6;color:#374151;">Kurang</span></td></tr>
+            <tr class="row-invalid" data-no="5" data-p="0.2000" data-tk="Sukar" data-r="0.3273" data-val="Tidak Valid" data-d="0.3333" data-dp="Baik"><td class="no-cell c">5</td><td class="r"><div class="val-bar"><div class="vb-num">0.200</div><div class="vb-track"><div class="vb-fill" style="width:20%;background:#2563eb;"></div></div></div></td><td><span class="pill" style="background:#fee2e2;color:#7f1d1d;">Sukar</span></td><td class="r">0.327</td><td><span class="pill" style="background:#fee2e2;color:#7f1d1d;">Tidak Valid</span></td><td class="r ">0.333</td><td><span class="pill" style="background:#ecfccb;color:#3a5c09;">Baik</span></td></tr>
+            <tr class="row-valid" data-no="6" data-p="0.3500" data-tk="Sedang" data-r="0.6234" data-val="Valid" data-d="0.4444" data-dp="Sangat Baik"><td class="no-cell c">6</td><td class="r"><div class="val-bar"><div class="vb-num">0.350</div><div class="vb-track"><div class="vb-fill" style="width:35%;background:#2563eb;"></div></div></div></td><td><span class="pill" style="background:#fef3c7;color:#78350f;">Sedang</span></td><td class="r">0.623</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Valid</span></td><td class="r ">0.444</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Sangat Baik</span></td></tr>
+            <tr class="row-invalid" data-no="7" data-p="0.3000" data-tk="Sukar" data-r="0.0119" data-val="Tidak Valid" data-d="-0.2222" data-dp="Kurang"><td class="no-cell c">7</td><td class="r"><div class="val-bar"><div class="vb-num">0.300</div><div class="vb-track"><div class="vb-fill" style="width:30%;background:#2563eb;"></div></div></div></td><td><span class="pill" style="background:#fee2e2;color:#7f1d1d;">Sukar</span></td><td class="r">0.012</td><td><span class="pill" style="background:#fee2e2;color:#7f1d1d;">Tidak Valid</span></td><td class="r neg-val">-0.222</td><td><span class="pill" style="background:#f3f4f6;color:#374151;">Kurang</span></td></tr>
+            <tr class="row-invalid" data-no="8" data-p="0.3000" data-tk="Sukar" data-r="0.2202" data-val="Tidak Valid" data-d="0.2222" data-dp="Cukup"><td class="no-cell c">8</td><td class="r"><div class="val-bar"><div class="vb-num">0.300</div><div class="vb-track"><div class="vb-fill" style="width:30%;background:#2563eb;"></div></div></div></td><td><span class="pill" style="background:#fee2e2;color:#7f1d1d;">Sukar</span></td><td class="r">0.220</td><td><span class="pill" style="background:#fee2e2;color:#7f1d1d;">Tidak Valid</span></td><td class="r ">0.222</td><td><span class="pill" style="background:#fef3c7;color:#78350f;">Cukup</span></td></tr>
+            <tr class="row-valid" data-no="9" data-p="0.3000" data-tk="Sukar" data-r="0.5179" data-val="Valid" data-d="0.4444" data-dp="Sangat Baik"><td class="no-cell c">9</td><td class="r"><div class="val-bar"><div class="vb-num">0.300</div><div class="vb-track"><div class="vb-fill" style="width:30%;background:#2563eb;"></div></div></div></td><td><span class="pill" style="background:#fee2e2;color:#7f1d1d;">Sukar</span></td><td class="r">0.518</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Valid</span></td><td class="r ">0.444</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Sangat Baik</span></td></tr>
+            <tr class="row-valid" data-no="10" data-p="0.3000" data-tk="Sukar" data-r="0.5179" data-val="Valid" data-d="0.5556" data-dp="Sangat Baik"><td class="no-cell c">10</td><td class="r"><div class="val-bar"><div class="vb-num">0.300</div><div class="vb-track"><div class="vb-fill" style="width:30%;background:#2563eb;"></div></div></div></td><td><span class="pill" style="background:#fee2e2;color:#7f1d1d;">Sukar</span></td><td class="r">0.518</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Valid</span></td><td class="r ">0.556</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Sangat Baik</span></td></tr>
+            <tr class="row-valid" data-no="11" data-p="0.2500" data-tk="Sukar" data-r="0.5984" data-val="Valid" data-d="0.5556" data-dp="Sangat Baik"><td class="no-cell c">11</td><td class="r"><div class="val-bar"><div class="vb-num">0.250</div><div class="vb-track"><div class="vb-fill" style="width:25%;background:#2563eb;"></div></div></div></td><td><span class="pill" style="background:#fee2e2;color:#7f1d1d;">Sukar</span></td><td class="r">0.598</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Valid</span></td><td class="r ">0.556</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Sangat Baik</span></td></tr>
+            <tr class="row-valid" data-no="12" data-p="0.3500" data-tk="Sedang" data-r="0.6805" data-val="Valid" data-d="0.6667" data-dp="Sangat Baik"><td class="no-cell c">12</td><td class="r"><div class="val-bar"><div class="vb-num">0.350</div><div class="vb-track"><div class="vb-fill" style="width:35%;background:#2563eb;"></div></div></div></td><td><span class="pill" style="background:#fef3c7;color:#78350f;">Sedang</span></td><td class="r">0.681</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Valid</span></td><td class="r ">0.667</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Sangat Baik</span></td></tr>
+            <tr class="row-valid" data-no="13" data-p="0.2000" data-tk="Sukar" data-r="0.5319" data-val="Valid" data-d="0.4444" data-dp="Sangat Baik"><td class="no-cell c">13</td><td class="r"><div class="val-bar"><div class="vb-num">0.200</div><div class="vb-track"><div class="vb-fill" style="width:20%;background:#2563eb;"></div></div></div></td><td><span class="pill" style="background:#fee2e2;color:#7f1d1d;">Sukar</span></td><td class="r">0.532</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Valid</span></td><td class="r ">0.444</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Sangat Baik</span></td></tr>
+            <tr class="row-invalid" data-no="14" data-p="0.4500" data-tk="Sedang" data-r="0.3728" data-val="Tidak Valid" data-d="0.4444" data-dp="Sangat Baik"><td class="no-cell c">14</td><td class="r"><div class="val-bar"><div class="vb-num">0.450</div><div class="vb-track"><div class="vb-fill" style="width:45%;background:#2563eb;"></div></div></div></td><td><span class="pill" style="background:#fef3c7;color:#78350f;">Sedang</span></td><td class="r">0.373</td><td><span class="pill" style="background:#fee2e2;color:#7f1d1d;">Tidak Valid</span></td><td class="r ">0.444</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Sangat Baik</span></td></tr>
+            <tr class="row-valid" data-no="15" data-p="0.4000" data-tk="Sedang" data-r="0.6737" data-val="Valid" data-d="0.4444" data-dp="Sangat Baik"><td class="no-cell c">15</td><td class="r"><div class="val-bar"><div class="vb-num">0.400</div><div class="vb-track"><div class="vb-fill" style="width:40%;background:#2563eb;"></div></div></div></td><td><span class="pill" style="background:#fef3c7;color:#78350f;">Sedang</span></td><td class="r">0.674</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Valid</span></td><td class="r ">0.444</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Sangat Baik</span></td></tr>
+            <tr class="row-valid" data-no="16" data-p="0.4000" data-tk="Sedang" data-r="0.6180" data-val="Valid" data-d="0.7778" data-dp="Sangat Baik"><td class="no-cell c">16</td><td class="r"><div class="val-bar"><div class="vb-num">0.400</div><div class="vb-track"><div class="vb-fill" style="width:40%;background:#2563eb;"></div></div></div></td><td><span class="pill" style="background:#fef3c7;color:#78350f;">Sedang</span></td><td class="r">0.618</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Valid</span></td><td class="r ">0.778</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Sangat Baik</span></td></tr>
+            <tr class="row-valid" data-no="17" data-p="0.4500" data-tk="Sedang" data-r="0.5922" data-val="Valid" data-d="0.6667" data-dp="Sangat Baik"><td class="no-cell c">17</td><td class="r"><div class="val-bar"><div class="vb-num">0.450</div><div class="vb-track"><div class="vb-fill" style="width:45%;background:#2563eb;"></div></div></div></td><td><span class="pill" style="background:#fef3c7;color:#78350f;">Sedang</span></td><td class="r">0.592</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Valid</span></td><td class="r ">0.667</td><td><span class="pill" style="background:#dcfce7;color:#14532d;">Sangat Baik</span></td></tr>
+            <tr class="row-invalid" data-no="18" data-p="0.2000" data-tk="Sukar" data-r="0.1568" data-val="Tidak Valid" data-d="0.2222" data-dp="Cukup"><td class="no-cell c">18</td><td class="r"><div class="val-bar"><div class="vb-num">0.200</div><div class="vb-track"><div class="vb-fill" style="width:20%;background:#2563eb;"></div></div></div></td><td><span class="pill" style="background:#fee2e2;color:#7f1d1d;">Sukar</span></td><td class="r">0.157</td><td><span class="pill" style="background:#fee2e2;color:#7f1d1d;">Tidak Valid</span></td><td class="r ">0.222</td><td><span class="pill" style="background:#fef3c7;color:#78350f;">Cukup</span></td></tr>
+            <tr class="row-invalid" data-no="19" data-p="0.2500" data-tk="Sukar" data-r="0.1890" data-val="Tidak Valid" data-d="0.1111" data-dp="Kurang"><td class="no-cell c">19</td><td class="r"><div class="val-bar"><div class="vb-num">0.250</div><div class="vb-track"><div class="vb-fill" style="width:25%;background:#2563eb;"></div></div></div></td><td><span class="pill" style="background:#fee2e2;color:#7f1d1d;">Sukar</span></td><td class="r">0.189</td><td><span class="pill" style="background:#fee2e2;color:#7f1d1d;">Tidak Valid</span></td><td class="r ">0.111</td><td><span class="pill" style="background:#f3f4f6;color:#374151;">Kurang</span></td></tr>
+            <tr class="row-invalid" data-no="20" data-p="0.2000" data-tk="Sukar" data-r="-0.1159" data-val="Tidak Valid" data-d="-0.1111" data-dp="Kurang"><td class="no-cell c">20</td><td class="r"><div class="val-bar"><div class="vb-num">0.200</div><div class="vb-track"><div class="vb-fill" style="width:20%;background:#2563eb;"></div></div></div></td><td><span class="pill" style="background:#fee2e2;color:#7f1d1d;">Sukar</span></td><td class="r"><span class="neg-val">-0.116</span></td><td><span class="pill" style="background:#fee2e2;color:#7f1d1d;">Tidak Valid</span></td><td class="r neg-val">-0.111</td><td><span class="pill" style="background:#f3f4f6;color:#374151;">Kurang</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── METODOLOGI (accordion) ────────────────────────────── -->
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      &#128218;&nbsp; Metodologi &amp; Kriteria Penilaian
+      <span class="ah-icon">&#9660;</span>
+    </div>
+    <div class="accordion-body">
+      <div class="method-grid">
+        <div class="method-card">
+          <div class="mc-head">&#128200; Tingkat Kesukaran</div>
+          <div class="mc-formula">P = B / JS</div>
+          <div class="mc-desc">B = jumlah peserta menjawab benar, JS = jumlah seluruh peserta.</div>
+          <div class="mc-criteria">
+            <div class="crit-row"><div class="crit-dot" style="background:#dc2626;"></div><span>Sukar: P &le; 0.30</span></div>
+            <div class="crit-row"><div class="crit-dot" style="background:#d97706;"></div><span>Sedang: 0.31 &ndash; 0.70</span></div>
+            <div class="crit-row"><div class="crit-dot" style="background:#16a34a;"></div><span>Mudah: P &gt; 0.70</span></div>
+          </div>
+          <div class="mc-desc" style="margin-top:8px;font-size:11.5px;color:#8a90a0;">Sumber: Arikunto (2018); Depdiknas (2008)</div>
+        </div>
+        <div class="method-card">
+          <div class="mc-head">&#10003; Validitas (r-pbis)</div>
+          <div class="mc-formula">r = ((Mp&minus;Mt)/St) &times; &radic;(p/q)</div>
+          <div class="mc-desc">Mp = rata skor peserta benar, Mt = rata skor total, St = SD total.</div>
+          <div class="mc-criteria">
+            <div class="crit-row"><div class="crit-dot" style="background:#16a34a;"></div><span>Valid: r-pbis &ge; 0.444 (df=18, &alpha;=5%)</span></div>
+            <div class="crit-row"><div class="crit-dot" style="background:#dc2626;"></div><span>Tidak Valid: r-pbis &lt; 0.444</span></div>
+          </div>
+          <div class="mc-desc" style="margin-top:8px;font-size:11.5px;color:#8a90a0;">Sumber: Arikunto (2018); Surapranata (2004)</div>
+        </div>
+        <div class="method-card">
+          <div class="mc-head">&#9889; Daya Pembeda</div>
+          <div class="mc-formula">D = (BA/JA) &minus; (BB/JB)</div>
+          <div class="mc-desc">BA/BB = benar kelompok atas/bawah, JA/JB = jumlah kelompok (9 peserta).</div>
+          <div class="mc-criteria">
+            <div class="crit-row"><div class="crit-dot" style="background:#16a34a;"></div><span>Sangat Baik: D &ge; 0.40</span></div>
+            <div class="crit-row"><div class="crit-dot" style="background:#4d7c0f;"></div><span>Baik: 0.30 &ndash; 0.39</span></div>
+            <div class="crit-row"><div class="crit-dot" style="background:#d97706;"></div><span>Cukup: 0.20 &ndash; 0.29</span></div>
+            <div class="crit-row"><div class="crit-dot" style="background:#6b7280;"></div><span>Kurang: &lt; 0.20</span></div>
+          </div>
+          <div class="mc-desc" style="margin-top:8px;font-size:11.5px;color:#8a90a0;">Sumber: Ebel &amp; Frisbie (1991); Kelley (1939)</div>
+        </div>
+        <div class="method-card">
+          <div class="mc-head">&#128200; Reliabilitas (KR-20)</div>
+          <div class="mc-formula">KR-20 = (k/(k&minus;1)) &times; (1 &minus; &Sigma;pq / Vt)</div>
+          <div class="mc-desc">k = jumlah butir, Vt = varians total skor.</div>
+          <div class="mc-criteria">
+            <div class="crit-row"><div class="crit-dot" style="background:#16a34a;"></div><span>Sangat Tinggi: 0.80 &ndash; 1.00</span></div>
+            <div class="crit-row"><div class="crit-dot" style="background:#4d7c0f;"></div><span>Tinggi: 0.60 &ndash; 0.79</span></div>
+            <div class="crit-row"><div class="crit-dot" style="background:#d97706;"></div><span>Sedang: 0.40 &ndash; 0.59</span></div>
+            <div class="crit-row"><div class="crit-dot" style="background:#dc2626;"></div><span>Rendah: 0.00 &ndash; 0.39</span></div>
+          </div>
+          <div class="mc-desc" style="margin-top:8px;font-size:11.5px;color:#8a90a0;">Sumber: Kuder &amp; Richardson (1937)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Rumus: r-pbis [Arikunto 2018; Surapranata 2004] &middot; KR-20 [Kuder &amp; Richardson 1937] &middot;
+    P = B/JS [Arikunto 2018; Depdiknas 2008] &middot; D = (BA/JA)&minus;(BB/JB) [Ebel &amp; Frisbie 1991; Kelley 1939]
+    &middot; Metode: 9 atas / 9 bawah (2 peserta tengah dikeluarkan).
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     DATA & INTERAKTIVITAS
+     ══════════════════════════════════════════════════════════ -->
+<script>
+// ── data baris disuntikkan dari Python ──────────────────────
+const ROWS_DATA = [{"no": 1, "p": 0.4, "tk": "Sedang", "r": 0.2283, "val": "Tidak Valid", "d": 0.1111, "dp": "Kurang"}, {"no": 2, "p": 0.45, "tk": "Sedang", "r": 0.2358, "val": "Tidak Valid", "d": 0.1111, "dp": "Kurang"}, {"no": 3, "p": 0.35, "tk": "Sedang", "r": 0.6234, "val": "Valid", "d": 0.4444, "dp": "Sangat Baik"}, {"no": 4, "p": 0.5, "tk": "Sedang", "r": 0.2455, "val": "Tidak Valid", "d": 0.0, "dp": "Kurang"}, {"no": 5, "p": 0.2, "tk": "Sukar", "r": 0.3273, "val": "Tidak Valid", "d": 0.3333, "dp": "Baik"}, {"no": 6, "p": 0.35, "tk": "Sedang", "r": 0.6234, "val": "Valid", "d": 0.4444, "dp": "Sangat Baik"}, {"no": 7, "p": 0.3, "tk": "Sukar", "r": 0.0119, "val": "Tidak Valid", "d": -0.2222, "dp": "Kurang"}, {"no": 8, "p": 0.3, "tk": "Sukar", "r": 0.2202, "val": "Tidak Valid", "d": 0.2222, "dp": "Cukup"}, {"no": 9, "p": 0.3, "tk": "Sukar", "r": 0.5179, "val": "Valid", "d": 0.4444, "dp": "Sangat Baik"}, {"no": 10, "p": 0.3, "tk": "Sukar", "r": 0.5179, "val": "Valid", "d": 0.5556, "dp": "Sangat Baik"}, {"no": 11, "p": 0.25, "tk": "Sukar", "r": 0.5984, "val": "Valid", "d": 0.5556, "dp": "Sangat Baik"}, {"no": 12, "p": 0.35, "tk": "Sedang", "r": 0.6805, "val": "Valid", "d": 0.6667, "dp": "Sangat Baik"}, {"no": 13, "p": 0.2, "tk": "Sukar", "r": 0.5319, "val": "Valid", "d": 0.4444, "dp": "Sangat Baik"}, {"no": 14, "p": 0.45, "tk": "Sedang", "r": 0.3728, "val": "Tidak Valid", "d": 0.4444, "dp": "Sangat Baik"}, {"no": 15, "p": 0.4, "tk": "Sedang", "r": 0.6737, "val": "Valid", "d": 0.4444, "dp": "Sangat Baik"}, {"no": 16, "p": 0.4, "tk": "Sedang", "r": 0.618, "val": "Valid", "d": 0.7778, "dp": "Sangat Baik"}, {"no": 17, "p": 0.45, "tk": "Sedang", "r": 0.5922, "val": "Valid", "d": 0.6667, "dp": "Sangat Baik"}, {"no": 18, "p": 0.2, "tk": "Sukar", "r": 0.1568, "val": "Tidak Valid", "d": 0.2222, "dp": "Cukup"}, {"no": 19, "p": 0.25, "tk": "Sukar", "r": 0.189, "val": "Tidak Valid", "d": 0.1111, "dp": "Kurang"}, {"no": 20, "p": 0.2, "tk": "Sukar", "r": -0.1159, "val": "Tidak Valid", "d": -0.1111, "dp": "Kurang"}];
+
+// ── distribusi ──────────────────────────────────────────────
+function renderDist(id, items, colorMap) {
+  const el = document.getElementById(id);
+  const total = items.reduce((s,x) => s + x.count, 0);
+  el.innerHTML = items.map(item => {
+    const pct = total ? Math.round(item.count / total * 100) : 0;
+    return `<div class="dist-item">
+      <div class="di-label" style="min-width:80px;">${item.label}</div>
+      <div class="di-bar-wrap">
+        <div class="di-bar" style="width:${pct}%;background:${colorMap[item.label]||'#ccc'};"></div>
+      </div>
+      <div class="di-count">${item.count}</div>
+    </div>`;
+  }).join('');
+}
+
+const tkCounts = {};
+const dpCounts = {};
+const valCounts = {};
+ROWS_DATA.forEach(r => {
+  tkCounts[r.tk]  = (tkCounts[r.tk]  || 0) + 1;
+  dpCounts[r.dp]  = (dpCounts[r.dp]  || 0) + 1;
+  valCounts[r.val] = (valCounts[r.val]|| 0) + 1;
+});
+
+renderDist('dist-tk',
+  [['Mudah','Sedang','Sukar'].map(k => ({label:k, count: tkCounts[k]||0}))].flat(),
+  {Mudah:'#16a34a', Sedang:'#d97706', Sukar:'#dc2626'}
+);
+renderDist('dist-dp',
+  [['Sangat Baik','Baik','Cukup','Kurang'].map(k => ({label:k, count: dpCounts[k]||0}))].flat(),
+  {'Sangat Baik':'#16a34a', Baik:'#4d7c0f', Cukup:'#d97706', Kurang:'#6b7280'}
+);
+renderDist('dist-val',
+  [['Valid','Tidak Valid'].map(k => ({label:k, count: valCounts[k]||0}))].flat(),
+  {Valid:'#16a34a', 'Tidak Valid':'#dc2626'}
+);
+
+// ── filter chip ──────────────────────────────────────────────
+document.querySelectorAll('.filter-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    const f = chip.dataset.filter;
+    document.querySelectorAll('#main-table tbody tr').forEach(tr => {
+      if (f === 'all') { tr.classList.remove('hidden'); return; }
+      const d = tr.dataset;
+      const show = (f === 'valid'   && d.val === 'Valid')
+                || (f === 'invalid' && d.val === 'Tidak Valid')
+                || (f === 'sukar'   && d.tk  === 'Sukar')
+                || (f === 'sedang'  && d.tk  === 'Sedang')
+                || (f === 'mudah'   && d.tk  === 'Mudah');
+      tr.classList.toggle('hidden', !show);
+    });
+  });
+});
+
+// ── sortir kolom ──────────────────────────────────────────────
+let sortCol = null, sortDir = 1;
+document.querySelectorAll('thead th[data-col]').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if (sortCol === col) { sortDir *= -1; }
+    else { sortCol = col; sortDir = 1; }
+    document.querySelectorAll('thead th').forEach(t => t.classList.remove('asc','desc'));
+    th.classList.add(sortDir === 1 ? 'asc' : 'desc');
+
+    const tbody = document.querySelector('#main-table tbody');
+    const rows = [...tbody.querySelectorAll('tr')];
+    rows.sort((a, b) => {
+      let va = a.dataset[col], vb = b.dataset[col];
+      if (!isNaN(parseFloat(va))) { va = parseFloat(va); vb = parseFloat(vb); }
+      return (va < vb ? -1 : va > vb ? 1 : 0) * sortDir;
+    });
+    rows.forEach(r => tbody.appendChild(r));
+  });
+});
+
+// ── accordion ────────────────────────────────────────────────
+function toggleAccordion(header) {
+  header.classList.toggle('open');
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
+</script>
+</body>
+</html>
